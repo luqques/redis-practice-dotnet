@@ -4,9 +4,9 @@ namespace Redis.Practice.Api.Repositories
 {
     public interface IUserRepository
     {
-        Task<User> GetUserAsync(int id);
+        Task<User?> GetUserAsync(int id);
         Task<IEnumerable<User>> GetAllUsersAsync();
-        Task AddUserAsync(User user);
+        Task<User?> AddUserAsync(UserDto user);
         Task UpdateUserAsync(User user);
         Task DeleteUserAsync(int id);
     }

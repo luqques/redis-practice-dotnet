@@ -5,7 +5,7 @@ using Redis.Practice.Api.Repositories;
 namespace Redis.Practice.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("v1/user")]
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
@@ -16,13 +16,24 @@ namespace Redis.Practice.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<User>> Get(int id)
+        public async Task<ActionResult<User>> GetUser(int id)
         {
-            User user = await _userRepository.GetUserAsync(id);
+            User? user = await _userRepository.GetUserAsync(id);
             if (user == null)
                 return NotFound();
 
             return Ok(user);
+        }
+
+        [HttpPost("insert-user")]
+        public async Task<ActionResult<User>> AddUser(UserDto user)
+        {
+            var newUser = await _userRepository.AddUserAsync(user);
+            
+            if (user == null)
+                return BadRequest();
+
+            return Ok(newUser);
         }
     }
 }
