@@ -50,14 +50,18 @@ namespace Redis.Practice.Api.Repositories
 
         public async Task<User?> GetUserAsync(int id)
         {
-            var user = await _cachingService.GetCache($"user:{id}");
-            if (user != null)
-                return JsonSerializer.Deserialize<User>(user);
+            var userCached = await _cachingService.GetCache($"User:{id}");
+            if (userCached != null)
+                return JsonSerializer.Deserialize<User>(userCached);
 
             const string sql = "SELECT id, name FROM users WHERE id = @Id;";
             using var connection = GetConnection();
 
-            return await connection.QueryFirstOrDefaultAsync<User>(sql, new { Id = id });
+            var user = await connection.QueryFirstOrDefaultAsync<User>(sql, new { Id = id });
+
+            await _cachingService.SetCache($"User:{id}", JsonSerializer.Serialize(user));
+
+            return user;
         }
 
         public async Task UpdateUserAsync(User user)

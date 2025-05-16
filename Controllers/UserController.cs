@@ -19,6 +19,7 @@ namespace Redis.Practice.Api.Controllers
         public async Task<ActionResult<User>> GetUser(int id)
         {
             User? user = await _userRepository.GetUserAsync(id);
+
             if (user == null)
                 return NotFound();
 

@@ -12,7 +12,7 @@ builder.Services.AddScoped<ICachingService, CachingService>();
 builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = "localhost:6379";
-    options.InstanceName = "instance";
+    options.InstanceName = "UserInstance";
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
