@@ -15,7 +15,7 @@ namespace Redis.Practice.Api.Controllers
             _userRepository = userRepository;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
             User? user = await _userRepository.GetUserAsync(id);
